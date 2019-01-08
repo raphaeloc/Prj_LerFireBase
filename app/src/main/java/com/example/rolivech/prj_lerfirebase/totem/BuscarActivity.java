@@ -1,5 +1,6 @@
 package com.example.rolivech.prj_lerfirebase.totem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.rolivech.prj_lerfirebase.R;
 import com.example.rolivech.prj_lerfirebase.Visitantes;
@@ -31,6 +33,10 @@ public class BuscarActivity extends AppCompatActivity {
 
     private ArrayAdapter<HMAux> arrayAdapter;
 
+    private VisitantesAdapter visitantesAdapter;
+
+    private Visitantes visitantes;
+
     private ArrayList<HMAux> listVisitante = new ArrayList<>();
 
     DatabaseReference mDatabase;
@@ -49,42 +55,61 @@ public class BuscarActivity extends AppCompatActivity {
         //
         lv_visitantes = findViewById(R.id.lv_visitantes);
         //
+        visitantes = new Visitantes();
+        //
         procurarVisitante();
         //
-        //
-
     }
 
     private void inicializarAcao() {
-        lv_visitantes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+       lv_visitantes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           @Override
+           public void onItemClick(AdapterView<?> parent, View view, int position, long telefone) {
+               HMAux aux = (HMAux) parent.getItemAtPosition(position);
+               //
+               //
+               String id = aux.get("id");
 
-            }
-        });
-        //
+               Intent mIntent = new Intent(BuscarActivity.this, SaudacaoActivity.class);
+               //
+               mIntent.putExtra("id", id);
+               //
+               startActivity(mIntent);
+               //
+           }
+       });
     }
 
     private void procurarVisitante(){
             mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                limparLista();
                 //
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     HMAux aux = new HMAux();
                     String id = snapshot.getKey();
                     String nome = snapshot.child("nome").getValue().toString();
+                    String telefone = snapshot.child("telefone").getValue().toString();
+                    String status = snapshot.child("status").getValue().toString();
 
-                    aux.put("id", id);
-                    aux.put("visitante", nome);
+                    if(status.equals("false")){
+                        aux.put("id", id);
+                        aux.put("visitante", nome);
+                        aux.put("telefone", telefone);
 
-
-                    listVisitante.add(aux);
+                        listVisitante.add(aux);
+                    }
+                    else{
+                    }
                 }
-                arrayAdapter = new ArrayAdapter<HMAux>(BuscarActivity.this, android.R.layout.simple_list_item_1, listVisitante);
+                visitantesAdapter = new VisitantesAdapter(
+                        BuscarActivity.this,
+                        listVisitante,
+                        android.R.layout.simple_list_item_1
+                );
 
-                lv_visitantes.setAdapter(arrayAdapter);
+                lv_visitantes.setAdapter(visitantesAdapter);
             }
 
             @Override
@@ -92,6 +117,12 @@ public class BuscarActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void limparLista() {
+        listVisitante.clear();
+        visitantesAdapter = new VisitantesAdapter(BuscarActivity.this, listVisitante, android.R.layout.simple_list_item_1);
+        lv_visitantes.setAdapter(visitantesAdapter);
     }
 
 }
