@@ -5,6 +5,9 @@ public class Visitantes {
     private String nome, telefone, hora;
 
     public Visitantes() {
+        this.nome = "";
+        this.telefone = "";
+        this.hora = "";
     }
 
     public Visitantes(String nome, String telefone, String hora) {
@@ -36,4 +39,5 @@ public class Visitantes {
     public void setHora(String hora) {
         this.hora = hora;
     }
+
 }

@@ -4,8 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.example.rolivech.prj_lerfirebase.R;
 import com.example.rolivech.prj_lerfirebase.Visitantes;
@@ -16,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,9 +27,11 @@ import java.util.Map;
 
 public class BuscarActivity extends AppCompatActivity {
 
-    private EditText et_telefone;
-    private Button btn_buscar;
-    private List<Visitantes> listVisitante = new ArrayList<Visitantes>();
+    private ListView lv_visitantes;
+
+    private ArrayAdapter<HMAux> arrayAdapter;
+
+    private ArrayList<HMAux> listVisitante = new ArrayList<>();
 
     DatabaseReference mDatabase;
 
@@ -39,59 +45,46 @@ public class BuscarActivity extends AppCompatActivity {
     }
 
     private void inicializarVariaveis() {
-        btn_buscar = findViewById(R.id.buscar_btn_buscar);
-        et_telefone = findViewById(R.id.buscar_et_telefone);
-
         mDatabase = FirebaseDatabase.getInstance().getReference().child("visitantes");
+        //
+        lv_visitantes = findViewById(R.id.lv_visitantes);
+        //
+        procurarVisitante();
+        //
+        //
+
     }
 
     private void inicializarAcao() {
-        btn_buscar.setOnClickListener(new View.OnClickListener() {
+        lv_visitantes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                procurarVisitante(String.valueOf(et_telefone.getText()));
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
             }
         });
         //
     }
 
-    private void procurarVisitante(String telefone){
-
-        /*Query query = mDatabase.equalTo(telefone);
-        Visitantes visitante = new Visitantes();
-
-        query.addValueEventListener(new ValueEventListener() {
+    private void procurarVisitante(){
+            mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<String> listaVisitantes = new ArrayList<String>();
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
-                    listaVisitantes.add(postSnapshot.getValue().toString());
-                }
-                int i = 10;
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
-
-
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    for(DataSnapshot vSnapshot : snapshot.)
+                    HMAux aux = new HMAux();
+                    String id = snapshot.getKey();
+                    String nome = snapshot.child("nome").getValue().toString();
+
+                    aux.put("id", id);
+                    aux.put("visitante", nome);
+
+
+                    listVisitante.add(aux);
                 }
+                arrayAdapter = new ArrayAdapter<HMAux>(BuscarActivity.this, android.R.layout.simple_list_item_1, listVisitante);
 
-                listVisitante.clear();
-                Visitantes v;
-                v = dataSnapshot.getValue(Visitantes.class);
-                listVisitante.add(v);
-
-
-                int i = 10;
-
+                lv_visitantes.setAdapter(arrayAdapter);
             }
 
             @Override
@@ -99,6 +92,6 @@ public class BuscarActivity extends AppCompatActivity {
 
             }
         });
-
     }
+
 }
