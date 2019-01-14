@@ -65,6 +65,7 @@ public class SaudacaoActivity extends AppCompatActivity {
                 String nome = dataSnapshot.child("nome").getValue().toString();
                 String photopath = dataSnapshot.child("photopath").getValue().toString();
 
+
                 StorageReference pathReference = mStorage.child(photopath);
                 pathReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
