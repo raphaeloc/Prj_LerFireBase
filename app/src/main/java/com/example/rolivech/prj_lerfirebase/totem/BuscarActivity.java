@@ -172,7 +172,7 @@ public class BuscarActivity extends AppCompatActivity {
             }
         });
     }
-
+//
     private void limparLista() {
         listVisitante.clear();
         visitantesAdapter = new VisitantesAdapter(BuscarActivity.this, listVisitante, android.R.layout.simple_list_item_1);
