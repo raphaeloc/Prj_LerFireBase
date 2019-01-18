@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.rolivech.prj_lerfirebase.Horarios;
 import com.example.rolivech.prj_lerfirebase.R;
 import com.example.rolivech.prj_lerfirebase.Visitantes;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,6 +51,7 @@ public class BuscarActivity extends AppCompatActivity {
     private ConstraintLayout buscar_tela;
     private Calendar calendar;
     private Context context;
+    private int color;
     private ArrayList<Horarios> horarios;
 
     DatabaseReference mDatabase;
@@ -60,6 +62,7 @@ public class BuscarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscar);
 
+
         inicializarVariaveis();
         inicializarAcao();
     }
@@ -67,7 +70,7 @@ public class BuscarActivity extends AppCompatActivity {
     private void inicializarVariaveis() {
         context = BuscarActivity.this;
         //
-
+        FirebaseApp.initializeApp(this);
         //
         buscar_tela = findViewById(R.id.buscar_tela);
         //
@@ -90,8 +93,9 @@ public class BuscarActivity extends AppCompatActivity {
                 }
                 for (Horarios horario : horarios) {
 
-                    if(horario.getFinalizado().equals("nao")){
+                    if(horario.getFinalizado() == false){
                         buscar_tela.setBackgroundColor(Integer.parseInt(horario.getCor_selecionada()));
+                        color = Integer.parseInt(horario.getCor_selecionada());
                         Log.d("color1", horario.getHorario());
                         break;
                     }
@@ -121,6 +125,8 @@ public class BuscarActivity extends AppCompatActivity {
                Intent mIntent = new Intent(BuscarActivity.this, SaudacaoActivity.class);
                //
                mIntent.putExtra("id", id);
+               mIntent.putExtra("color", color);
+               int i = 10;
                //
                startActivity(mIntent);
                //

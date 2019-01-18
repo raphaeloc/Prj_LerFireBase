@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/saudacao_tela"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -30,7 +31,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:text="Bem-Vindo"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
+            android:textSize="21sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/saudacao_tv_titulo"
             tools:text="Rodrigo Fontes" />
@@ -54,7 +56,7 @@
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/saudacao_tv_nome"
-            app:srcCompat="@mipmap/ic_launcher" />
+            tools:srcCompat="@mipmap/ic_launcher" />
 
         <Button
             android:id="@+id/saudacao_btn_ok"

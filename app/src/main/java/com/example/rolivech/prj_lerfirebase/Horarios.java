@@ -2,18 +2,18 @@ package com.example.rolivech.prj_lerfirebase;
 
 public class Horarios {
     private String cor_selecionada;
-    private String finalizado;
+    private boolean finalizado;
     private String horario;
     private String num_pessoas;
 
     public Horarios() {
         this.cor_selecionada = "";
-        this.finalizado = "";
+        this.finalizado = false;
         this.horario = "";
         this.num_pessoas = "";
     }
 
-    public Horarios(String cor_selecionada, String finalizado, String horario, String num_pessoas) {
+    public Horarios(String cor_selecionada, boolean finalizado, String horario, String num_pessoas) {
         this.cor_selecionada = cor_selecionada;
         this.finalizado = finalizado;
         this.horario = horario;
@@ -28,11 +28,11 @@ public class Horarios {
         this.cor_selecionada = cor_selecionada;
     }
 
-    public String getFinalizado() {
+    public boolean getFinalizado() {
         return finalizado;
     }
 
-    public void setFinalizado(String finalizado) {
+    public void setFinalizado(boolean finalizado) {
         this.finalizado = finalizado;
     }
 

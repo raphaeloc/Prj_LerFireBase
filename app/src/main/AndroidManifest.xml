@@ -16,7 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        //
+
         <receiver android:name=".totem.AcaoASerExecutada">
             <intent-filter>
                 <action android:name="teste" />
@@ -24,7 +24,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-        //
 
         <activity android:name=".totem.SaudacaoActivity"/>
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -28,10 +29,12 @@ public class SaudacaoActivity extends AppCompatActivity {
 
     private TextView tv_nome;
     private ImageView iv_foto;
+    private ConstraintLayout saudacao_tela;
     private Button btn_ok, btn_cancela;
     private DatabaseReference mDatabase;
     private StorageReference mStorage;
     private String id;
+    private int color;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +49,12 @@ public class SaudacaoActivity extends AppCompatActivity {
         tv_nome = findViewById(R.id.saudacao_tv_nome);
         btn_ok = findViewById(R.id.saudacao_btn_ok);
         iv_foto = findViewById(R.id.imageView);
+        saudacao_tela = findViewById(R.id.saudacao_tela);
         //
         //
         Intent mIntent = getIntent();
         id = mIntent.getStringExtra("id");
+        color = mIntent.getIntExtra("color", -1);
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("visitantes");
         mStorage = FirebaseStorage.getInstance().getReference();
@@ -73,7 +78,7 @@ public class SaudacaoActivity extends AppCompatActivity {
                         Picasso.get().load(uri).into(iv_foto);
                     }
                 });
-
+                saudacao_tela.setBackgroundColor(color);
                 tv_nome.setText(nome);
                 int i = 10;
             }
@@ -90,13 +95,18 @@ public class SaudacaoActivity extends AppCompatActivity {
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDatabase.child(id).child("status").setValue(true);
-                Toast.makeText(SaudacaoActivity.this, "sucesso", Toast.LENGTH_SHORT).show();
-                Intent mIntent = new Intent(SaudacaoActivity.this, BuscarActivity.class);
-                //
-                startActivity(mIntent);
-                //
-                finish();
+                try{
+                    mDatabase.child(id).child("status").setValue(true);
+                    Toast.makeText(SaudacaoActivity.this, "Sucesso!", Toast.LENGTH_SHORT).show();
+                    Intent mIntent = new Intent(SaudacaoActivity.this, BuscarActivity.class);
+                    //
+                    startActivity(mIntent);
+                    //
+                    finish();
+                }
+                catch(Exception e){
+                    Toast.makeText(SaudacaoActivity.this, "Erro: " + e +". Tente novamente.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
