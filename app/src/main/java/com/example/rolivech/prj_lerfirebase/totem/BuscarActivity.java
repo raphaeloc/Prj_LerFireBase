@@ -94,9 +94,11 @@ public class BuscarActivity extends AppCompatActivity {
                 for (Horarios horario : horarios) {
 
                     if(horario.getFinalizado() == false){
+                        getWindow().setStatusBarColor(Integer.parseInt(horario.getCor_selecionada()));
                         buscar_tela.setBackgroundColor(Integer.parseInt(horario.getCor_selecionada()));
                         color = Integer.parseInt(horario.getCor_selecionada());
-                        Log.d("color1", horario.getHorario());
+
+                        Log.d("color1", horario.getCor_selecionada());
                         break;
                     }
                 }

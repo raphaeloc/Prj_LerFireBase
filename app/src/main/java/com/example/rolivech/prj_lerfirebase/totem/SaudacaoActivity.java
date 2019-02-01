@@ -78,6 +78,7 @@ public class SaudacaoActivity extends AppCompatActivity {
                         Picasso.get().load(uri).into(iv_foto);
                     }
                 });
+                getWindow().setStatusBarColor(color);
                 saudacao_tela.setBackgroundColor(color);
                 tv_nome.setText(nome);
                 int i = 10;
